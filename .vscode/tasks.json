@@ -1,0 +1,74 @@
+{
+    "tasks": [
+        {
+            "label": "Run Program",
+            "type": "shell",
+            "command": "cd ${fileDirname}/build && ./${fileBasenameNoExtension}.out",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "clear": true,
+                "showReuseMessage": false,
+                //"newTerminal": true
+            },
+            // "options": {
+            //     "externalTerminal":
+            // },
+            "detail": "without any arguments passed"
+        },
+        {
+            "label": "Create a Build folder",
+            "type": "shell",
+            "command": "mkdir",
+            "args": [
+                "-p",
+                "build",
+            ],
+            "group": "build",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+        },
+        {
+            "label": "Build C File",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/build/${fileBasenameNoExtension}.out",
+                "-lmosquitto"
+            ],
+            "group": "build",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "-lmosquitto library included."
+        },
+        {
+            "label": "Start Mosquitto Server",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/mqtt_broker"
+            },
+            
+            "command": "chmod +x start_server.sh && ./start_server.sh",
+
+        },
+        {
+            "label": "Create Certificates",
+            "type": "shell",
+            "command": "chmod +x create_certs.sh && ./create_certs.sh",
+            "options": {
+                "cwd": "${workspaceFolder}/mqtt_broker"
+            }
+        }
+
+    ],
+    "version": "2.0.0"
+}
